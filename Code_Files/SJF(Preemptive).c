@@ -1,72 +1,41 @@
 #include <stdio.h>
 
-#include <limits.h>
-
-
-
 int main() {
 
     int n;
-
-
 
     printf("Enter number of processes: ");
 
     scanf("%d", &n);
 
-
-
     int at[n], bt[n], rt[n];
 
     int ct[n], tat[n], wt[n];
-
-
-
-
 
     for (int i = 0; i < n; i++) {
 
         printf("\nProcess P%d\n", i + 1);
 
-
-
         printf("Arrival Time: ");
 
         scanf("%d", &at[i]);
 
-
-
         printf("Burst Time: ");
 
         scanf("%d", &bt[i]);
-
-
-
         rt[i] = bt[i];
 
     }
-
-
 
     int completed = 0;
 
     int currentTime = 0;
 
-
-
-
-
     while (completed < n) {
-
-
 
         int shortest = -1;
 
         int minRemaining = INT_MAX;
-
-
-
-
 
         for (int i = 0; i < n; i++) {
 
@@ -76,8 +45,6 @@ int main() {
 
                 rt[i] < minRemaining) {
 
-
-
                 minRemaining = rt[i];
 
                 shortest = i;
@@ -85,10 +52,6 @@ int main() {
             }
 
         }
-
-
-
-
 
         if (shortest == -1) {
 
@@ -99,22 +62,14 @@ int main() {
         }
 
 
-
-
-
         rt[shortest]--;
 
         currentTime++;
 
 
-
-
-
         if (rt[shortest] == 0) {
 
             completed++;
-
-
 
             ct[shortest] = currentTime;
 
@@ -127,16 +82,9 @@ int main() {
     }
 
 
-
-
-
     printf("\nP\tAT\tBT\tCT\tTAT\tWT\n");
 
-
-
     float avgWT = 0, avgTAT = 0;
-
-
 
     for (int i = 0; i < n; i++) {
 
