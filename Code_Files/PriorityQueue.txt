@@ -1,7 +1,7 @@
 INPUT: list of processes, each with arrival_time, burst_time, priority
         (convention: LOWER number = HIGHER priority)
 
-// ---------- SETUP ----------
+// Input Setup
 FOR each process P:
     remaining_time[P] = burst_time[P]
     started[P] = FALSE
@@ -25,12 +25,12 @@ WHILE completed < total processes:
                 IF P.arrival_time < candidate.arrival_time:
                     candidate = P
 
-    // Step 2: if nobody has arrived yet, fast-forward the clock
+    // Step 2: if nobody has arrived yet, fast-forward the time
     IF candidate == NONE:
         time = time + 1
         CONTINUE
 
-    // Step 3: detect a preemption (context switch) — for the Gantt chart / log
+    // Step 3: detect a preemption 
     IF candidate != running:
         PRINT "time", time, ": switch to P", candidate
         running = candidate
