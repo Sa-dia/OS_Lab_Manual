@@ -29,7 +29,7 @@ int main() {
         int candidate = -1;
         for (int i = 0; i < n; i++) {
             if (at[i] <= time && remaining[i] > 0) {
-                if (candidate == -1 || pr[i] < pr[candidate]) {
+                if (candidate == -1 || pr[i] < pr[candidate]) {  /* checking weither eligible candidate is arrived or not*/
                     candidate = i;
                 } else if (pr[i] == pr[candidate] && at[i] < at[candidate]) {
                     candidate = i;   /* tie-break: earlier arrival wins */
@@ -43,7 +43,7 @@ int main() {
             continue;
         }
 
-        /* Step 3: detect a context switch, for the trace / Gantt chart */
+        /* Step 3: detect a context switch */
         if (candidate != running) {
             printf("Time %d: switch to P%d (priority %d)\n", time, candidate + 1, pr[candidate]);
             running = candidate;
