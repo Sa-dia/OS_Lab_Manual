@@ -2,10 +2,10 @@ INPUT: processes with arrival_time, burst_time
 remaining_time[P] = burst_time[P] for all P
 time = 0, completed = 0
 
-WHILE completed < total processes:
-    among ARRIVED processes with remaining_time > 0,
+WHILE completed < total processes:    //loop until all the processes are completed
+    among ARRIVED processes with remaining_time > 0,  // for the process in ready queue
         pick the one with SMALLEST remaining_time → P
-    IF none arrived yet:
+    IF none arrived yet:   
         time = time + 1
         CONTINUE
     remaining_time[P] = remaining_time[P] - 1     // run for 1 unit
