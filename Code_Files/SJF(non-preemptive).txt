@@ -1,0 +1,15 @@
+INPUT: list of processes with arrival_time, burst_time
+mark all processes as "not done"
+time = 0, completed = 0
+
+WHILE completed < total processes:
+    among processes that have ARRIVED and are NOT DONE,
+        pick the one with SMALLEST burst_time  → call it P
+    IF no such process exists:
+        time = time + 1                 // CPU idle, wait for arrival
+        CONTINUE
+    time = time + P.burst_time
+    P.completion_time = time
+    compute P.turnaround_time, P.waiting_time
+    mark P as done
+    completed = completed + 1

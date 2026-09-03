@@ -1,0 +1,17 @@
+INPUT: processes, time_quantum
+put all processes (as they arrive) into a QUEUE
+remaining_time[P] = burst_time[P]
+
+WHILE queue is not empty:
+    P = remove front of queue
+    slice = MIN(time_quantum, remaining_time[P])
+    time = time + slice
+    remaining_time[P] = remaining_time[P] - slice
+
+    add any newly-arrived processes to back of queue
+
+    IF remaining_time[P] > 0:
+        add P to back of queue          // not finished, goes to the back
+    ELSE:
+        P.completion_time = time
+        compute turnaround_time, waiting_time

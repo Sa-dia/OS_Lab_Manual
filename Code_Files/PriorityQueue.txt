@@ -1,0 +1,56 @@
+INPUT: list of processes, each with arrival_time, burst_time, priority
+        (convention: LOWER number = HIGHER priority)
+
+// ---------- SETUP ----------
+FOR each process P:
+    remaining_time[P] = burst_time[P]
+    started[P] = FALSE
+
+time = 0
+completed = 0
+running = NONE                     // the process currently on the CPU
+
+// ---------- MAIN LOOP (advance one time unit at a time) ----------
+WHILE completed < total processes:
+
+    // Step 1: find the highest-priority process among those that
+    //         have arrived and are not yet finished
+    candidate = NONE
+    FOR each process P:
+        IF P.arrival_time <= time AND remaining_time[P] > 0:
+            IF candidate == NONE OR P.priority < candidate.priority:
+                candidate = P
+            ELSE IF P.priority == candidate.priority:
+                // tie-break: earlier arrival_time wins (or keep running process)
+                IF P.arrival_time < candidate.arrival_time:
+                    candidate = P
+
+    // Step 2: if nobody has arrived yet, fast-forward the clock
+    IF candidate == NONE:
+        time = time + 1
+        CONTINUE
+
+    // Step 3: detect a preemption (context switch) — for the Gantt chart / log
+    IF candidate != running:
+        PRINT "time", time, ": switch to P", candidate
+        running = candidate
+    IF started[candidate] == FALSE:
+        candidate.response_time = time - candidate.arrival_time
+        started[candidate] = TRUE
+
+    // Step 4: run the chosen process for exactly ONE time unit,
+    //         then re-check — a new arrival might outrank it next tick
+    remaining_time[candidate] = remaining_time[candidate] - 1
+    time = time + 1
+
+    // Step 5: if it just finished, record its stats
+    IF remaining_time[candidate] == 0:
+        candidate.completion_time = time
+        candidate.turnaround_time = candidate.completion_time - candidate.arrival_time
+        candidate.waiting_time    = candidate.turnaround_time - candidate.burst_time
+        completed = completed + 1
+        running = NONE
+
+// ---------- OUTPUT ----------
+PRINT completion_time, turnaround_time, waiting_time for each process
+PRINT average turnaround_time, average waiting_time

@@ -1,0 +1,14 @@
+INPUT: list of processes with arrival_time, burst_time
+
+SORT processes by arrival_time
+
+time = 0
+FOR each process P in sorted order:
+    IF time < P.arrival_time:
+        time = P.arrival_time          // CPU idles until process arrives
+    P.completion_time = time + P.burst_time
+    time = P.completion_time
+    P.turnaround_time = P.completion_time - P.arrival_time
+    P.waiting_time    = P.turnaround_time - P.burst_time
+
+PRINT average waiting_time, average turnaround_time
